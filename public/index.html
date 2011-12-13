@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test form detection and AJAX submission to service via javascript</title>
+    <script type="text/javascript" src="/javascripts/ti.js"></script>
+</head>
+<body>
+    <form action="/" method="POST">
+        <p>
+        <input type="text" name="textfield" /><br />
+        <select name="selectfield">
+            <option value="1">test select value 1</option>
+            <option>test select value 2</option>
+        </select>
+        </p>
+        <p>
+        <input type="text" name="fields[testtext]" /><br />
+        <select name="fields[testselect]">
+            <option value="1">test select value 1</option>
+            <option>test select value 2</option>
+        </select>
+        </p>
+        <input type="submit" />
+    </form>
+</body>
+</html>
+
+
