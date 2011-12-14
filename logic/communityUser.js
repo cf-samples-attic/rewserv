@@ -23,7 +23,7 @@ if(process.env.VCAP_SERVICES) {
   mongoose.connect("mongodb://" + obj.username + ":" + obj.password + "@" + obj.hostname + ":" + obj.port + "/" + obj.db);
 } else {
   //console.log('local db connection');
-  mongoose.connect('mongodb://localhost/communityusers');
+  mongoose.connect('mongodb://localhost/mongodb-rewserv');
 }
 
 exports.getactivity = function(req,res,next) {

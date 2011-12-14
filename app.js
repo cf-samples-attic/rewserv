@@ -4,7 +4,7 @@
 var port = (process.env.VMC_APP_PORT || 3000);
 var host = (process.env.VCAP_APP_HOST || '172.16.24.150');
 var express = require('express');
-var auth= require(__dirname + '/node_modules/express/node_modules/connect-auth');
+//var auth= require(__dirname + '/node_modules/express/node_modules/connect-auth');
 var communityUser = require(__dirname + '/logic/communityUser.js');
 
 var app = express.createServer();
