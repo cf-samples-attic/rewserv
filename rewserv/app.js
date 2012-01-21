@@ -2,10 +2,10 @@
  * Module dependencies.
  */
 var port = (process.env.VMC_APP_PORT || 3000);
-var host = (process.env.VCAP_APP_HOST || '172.16.24.150');
+var host = (process.env.VCAP_APP_HOST || '10.170.21.212');
 var express = require('express');
-//var auth= require(__dirname + '/node_modules/express/node_modules/connect-auth');
-var communityUser = require(__dirname + '/logic/communityUser.js');
+// var communityUser = require(__dirname + '/logic/communityUser.js');
+var hubbubSubscriber = require(__dirname + '/logic/hubbubSubscriber.js');
 
 var app = express.createServer();
 
@@ -21,9 +21,6 @@ app.configure(function(){
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
   app.use(express.cookieParser());
   app.use(express.session({ secret: "string" }));
-//  app.use(auth([
-//    auth.Facebook({appId : fbId, appSecret: fbSecret, scope: "email", callback: fbCallbackAddress})
-//  ]));
 });
 
 /*
@@ -38,32 +35,18 @@ app.configure('production', function(){
 
 // Routes
 
-//app.get('/', function(req, res) {
-//
-//});
+app.get('/hubbub', function(req, res) {
+    console.log(req.param('hub.challenge'));
+    res.send(req.param('hub.challenge'), 200);
+});
 
-app.get('/activity', function(req, res) {
+app.post('/hubbub', hubbubSubscriber.postactivity, function(req, res) {
+    console.log(req.body);
+});
+
+app.get('/activity', hubbubSubscriber.getactivity, function(req, res) {
 //  console.log(req);
   res.json({'Warning':'Parameter missing'});
-});
-
-app.get('/activity/:email', communityUser.getactivity, function(req, res) {
-  res.json(req.resp);
-});
-
-app.get('/logout', function(req, res, params) {
-  req.logout();
-  res.writeHead(303, { 'Location': "/" });
-  res.end('');
-});
-
-app.post('/testpost', function(req, res) {
-  //console.log(req.body);
-  res.json(req.body);
-});
-
-app.post('/activity', communityUser.postactivity, function(req, res) {
-  res.json(req.resp);
 });
 
 app.put('.*', function(req, res) {
