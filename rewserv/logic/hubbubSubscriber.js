@@ -1,48 +1,57 @@
 /*
-{ status:
-   { code: 200,
-     http: '17786B in 0.300956593s, 7/15 new entries',
-     nextFetch: 1327177249,
-     title: 'San Francisco - Twitter Search',
-     entriesCountSinceLastMaintenance: 17626,
-     period: '90',
-     lastFetch: 1327177155,
-     lastParse: 1327177155,
-     lastMaintenanceAt: 1215824721,
-     digest: false,
-     feed: 'http://search.twitter.com/search.atom?q=San+Francisco' },
-  updated: 1327177155,
-  id: 'http://search.twitter.com/search.atom?q=San+Francisco',
-  title: 'San Francisco - Twitter Search',
-  subtitle: '',
-  standardLinks:
-   { self: [ [Object] ],
-     search: [ [Object] ],
-     refresh: [ [Object] ],
-     next: [ [Object] ] },
-  permalinkUrl: 'http://search.twitter.com/search?q=San+Francisco',
-  items:
-   [ { id: 'tag:search.twitter.com,2005:160818620010725377',
-       postedTime: 1327177121,
-       updated: 1327177121,
-       title: 'RT @alexaquino: Releases today at BLACK SCALE San Francisco http://t.co/7ifkNbtx',
-       summary: '',
-       content: 'RT @<a class=" " href="http://twitter.com/alexaquino">alexaquino</a>: Releases today at BLACK SCALE <em>San</em> <em>Francisco</em> <a href="http://t.co/7ifkNbtx">http://t.co/7ifkNbtx</a>',
-       permalinkUrl: 'http://twitter.com/papalote415/statuses/160818620010725377',
-       image: 'http://a2.twimg.com/profile_images/1746882898/image_normal.jpg',
-       actor: [Object] },
-     
+{
+    "status": {
+        "code": 200,
+        "http": "26492B in 0.404484665s, 1/20 new entries",
+        "nextFetch": 1327093567,
+        "title": "Recent Commits to spring-integration-scala:master",
+        "entriesCountSinceLastMaintenance": 22,
+        "period": "225",
+        "lastFetch": 1327093333,
+        "lastParse": 1327093333,
+        "lastMaintenanceAt": 1326850905,
+        "digest": false,
+        "feed": "https://github.com/SpringSource/spring-integration-scala/commits/master.atom"
+    },
+    "updated": 1327093333,
+    "id": "https://github.com/SpringSource/spring-integration-scala/commits/master.atom",
+    "title": "Recent Commits to spring-integration-scala:master",
+    "subtitle": "",
+    "standardLinks": {
+        "self": [{
+            "href": "https://github.com/SpringSource/spring-integration-scala/commits/master.atom",
+            "title": null,
+            "type": "application/atom+xml"
+        }]
+    },
+    "permalinkUrl": "https://github.com/SpringSource/spring-integration-scala/commits/master",
+    "items": [{
+        "id": "tag:github.com,2008:Grit::Commit/e5f82b1a53168e74caadbff4deff445cc7f6e672",
+        "postedTime": 1327092550,
+        "updated": 1327092550,
+        "title": "more router polishing",
+        "summary": "",
+        "content": "<pre>m src/main/scala/org/springframework/eip/dsl/Composition.scala\nm src/main/scala/org/springframework/eip/dsl/MessageRouters.scala\nm src/test/scala/demo/DslDemo.scala\nm src/test/scala/org/springframework/eip/dsl/MessageRouterTests.scala\n</pre>\n      <pre style='white-space:pre-wrap;width:81ex'>more router polishing</pre>",
+        "permalinkUrl": "https://github.com/SpringSource/spring-integration-scala/commit/e5f82b1a53168e74caadbff4deff445cc7f6e672",
+        "standardLinks": {
+            "thumbnail": [{
+                "href": "https://secure.gravatar.com/avatar/4d20fafe518281f1cdd708bb98ce37e2?s=30&#38;d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-140.png",
+                "title": "more router polishing",
+                "type": "image/jpeg"
+            }]
+        },
+        "actor": {
+            "displayName": "Oleg Zhurakousky",
+            "permalinkUrl": "https://github.com/olegz"
+        }
+    }]
+}
 */
 
-var mongoose = require('mongoose'),
-    Schema = mongoose.Schema;
 
-var HubbubSchema = new Schema({
-    activity: {type: String}
-});
+var mongoose = require('mongoose');
+var asmsDB = require('activity-streams-mongoose')(mongoose);
 
-var hubbub = mongoose.model('hubbub', HubbubSchema);
- 
 if(process.env.VCAP_SERVICES) {
   var env = JSON.parse(process.env.VCAP_SERVICES);
   //var obj = env['mongodb-1.8'][0]['credentials'];
@@ -55,46 +64,41 @@ if(process.env.VCAP_SERVICES) {
 
 exports.getactivity = function(req,res,next) {
   //console.log(res);
-  users.findOne({'email': req.params.email}, function(err,dbret) {
-    req.resp = dbret;
-    if(err) { 
-      req.resp = {'Error':err}; 
-      next(); 
-    }
-    if(dbret === null) { 
-      req.resp = {'Warning':'No user found'}; 
-      next(); 
-    } else { 
-      req.resp = dbret; 
-      next(); 
-    }
-  });
 };
 
 exports.postactivity = function(req,res,next) {
-  //console.log(req.body);
-  if(!req.body.email || !req.body.joindate || !req.body.posts) {
-    req.resp = {'Warning':'Parameter missing'};  
+
+  if(!req.body.items) {
+    console.log('no items to save');
     next();
   }
-  //var user = new users({'email': req.body.email, 'joindate': req.body.joindate, 'posts': req.body.posts});
-  //users.remove({'email': req.body.email});
-  users.update({'email': req.body.email}, {$set:{'joindate': req.body.joindate, 'posts': req.body.posts}}, { upsert: true, multi: false}, function() {
-    users.find({'email': req.body.email}, function(err,dbret) {
-      req.resp = dbret;
-      if(err) { 
-        req.resp = {'Error':err}; 
-        next(); 
-      }
-      if(dbret === null) { 
-        req.resp = {'Error':'User not updated or created'}; 
-        next(); 
-      } else { 
-        req.resp = dbret; 
-        next(); 
-      }
-    });
+
+  var target = new asmsDB.ActivityObject({ displayName: req.body.title, url: req.body.id });
+console.log(req.body.title);
+console.log(req.body.id);
+
+  target.save(function(err) {
+    if (err === null) {
+      req.body.items.forEach(function(val, index, array) {
+console.log(val.actor.displayName);
+console.log(val.title);
+//console.log(val.content);
+console.log(val.permalinkUrl);
+
+        var startAct = new asmsDB.Activity({
+          actor: { displayName: val.actor.displayName }, 
+          object:{ displayName: val.title, url: val.permalinkUrl }, 
+          title: val.title 
+        });
+        startAct.save(function(err) {
+          console.log("Error saving: " + val.title);
+          console.log(err);
+        });
+
+      });
+    }
   });
+
 };
 
 /*
