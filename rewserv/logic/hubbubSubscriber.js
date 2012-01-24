@@ -74,16 +74,16 @@ exports.postactivity = function(req,res,next) {
   }
 
   var target = new asmsDB.ActivityObject({ displayName: req.body.title, url: req.body.id });
-console.log(req.body.title);
-console.log(req.body.id);
+//console.log(req.body.title);
+//console.log(req.body.id);
 
   target.save(function(err) {
     if (err === null) {
       req.body.items.forEach(function(val, index, array) {
-console.log(val.actor.displayName);
-console.log(val.title);
+//console.log(val.actor.displayName);
+//console.log(val.title);
 //console.log(val.content);
-console.log(val.permalinkUrl);
+//console.log(val.permalinkUrl);
 
         var startAct = new asmsDB.Activity({
           actor: { displayName: val.actor.displayName }, 
@@ -91,8 +91,14 @@ console.log(val.permalinkUrl);
           title: val.title 
         });
         startAct.save(function(err) {
-          console.log("Error saving: " + val.title);
-          console.log(err);
+          if (err === null) {
+            asmsDB.getActivityStream(5, function (err, docs) {
+              docs.forEach(function(doc){console.log(doc);});
+           });
+          } else {
+            console.log("Error saving: " + val.title);
+            console.log(err);
+          }
         });
 
       });
