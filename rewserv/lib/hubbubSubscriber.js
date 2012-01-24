@@ -50,16 +50,16 @@
 
 
 var mongoose = require('mongoose');
-var asmsDB = require('activity-streams-mongoose')(mongoose);
+var asmsDB = require('activity-streams-mongoose')(mongoose, {redis:null, defaultActorImage: ''});
 
 if(process.env.VCAP_SERVICES) {
   var env = JSON.parse(process.env.VCAP_SERVICES);
   //var obj = env['mongodb-1.8'][0]['credentials'];
-  var obj = env['mongodb-1.8'][0].credentials;
+  var obj = env['mongodb-asms'][0].credentials;
   mongoose.connect("mongodb://" + obj.username + ":" + obj.password + "@" + obj.hostname + ":" + obj.port + "/" + obj.db);
 } else {
   //console.log('local db connection');
-  mongoose.connect('mongodb://localhost/mongodb-rewservconference');
+  mongoose.connect('mongodb://localhost/mongodb-asms');
 }
 
 exports.getactivity = function(req,res,next) {

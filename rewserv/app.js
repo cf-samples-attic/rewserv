@@ -2,7 +2,7 @@
  * Module dependencies.
  */
 var port = (process.env.VMC_APP_PORT || 3000);
-var host = (process.env.VCAP_APP_HOST || '10.170.21.212');
+var host = (process.env.VCAP_APP_HOST || '127.0.0.1');
 var express = require('express');
 // var communityUser = require(__dirname + '/logic/communityUser.js');
 var hubbubSubscriber = require('./lib/hubbubSubscriber');

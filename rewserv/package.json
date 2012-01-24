@@ -6,6 +6,6 @@
                 "express": ""
               , "jade": ""
               , "mongoose":""
-              , "activity-streams-mongoose": "0.0.2"
+              , "activity-streams-mongoose": "0.0.4"
           }
 }
