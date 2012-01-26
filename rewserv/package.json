@@ -6,6 +6,9 @@
                 "express": ""
               , "jade": ""
               , "mongoose":""
-              , "activity-streams-mongoose": "0.0.4"
+              , "activity-streams-mongoose": "0.0.5"
+              , "cloudfoundry" : ">=0.1.0"
+              , "redis": ">= 0.5.11 < 1.0.0"
+              , "hiredis": ">= 0.1.9 < 1.0.0"
           }
 }

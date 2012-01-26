@@ -40,13 +40,13 @@ app.get('/hubbub', function(req, res) {
     res.send(req.param('hub.challenge'), 200);
 });
 
-app.post('/hubbub', hubbubSubscriber.postactivity, function(req, res) {
-    console.log(req.body);
+app.post('/hubbub', hubbubSubscriber.postActivityStream, function(req, res) {
+
 });
 
-app.get('/activity', hubbubSubscriber.getactivity, function(req, res) {
-//  console.log(req);
-  res.json({'Warning':'Parameter missing'});
+app.get('/activityStream/:streamName', hubbubSubscriber.getActivityStream, function(req, res) {
+    console.dir(req.activities);
+    res.send(JSON.stringify(req.activities));
 });
 
 app.put('.*', function(req, res) {
