@@ -45,7 +45,6 @@ app.post('/hubbub', hubbubSubscriber.postActivityStream, function(req, res) {
 });
 
 app.get('/activityStream/:streamName', hubbubSubscriber.getActivityStream, function(req, res) {
-    console.dir(req.activities);
     res.send(JSON.stringify(req.activities));
 });
 
