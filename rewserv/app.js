@@ -2,10 +2,10 @@
  * Module dependencies.
  */
 var port = (process.env.VMC_APP_PORT || 3000);
-var host = (process.env.VCAP_APP_HOST || '10.170.21.212');
+var host = (process.env.VCAP_APP_HOST || '127.0.0.1');
 var express = require('express');
 // var communityUser = require(__dirname + '/logic/communityUser.js');
-var hubbubSubscriber = require(__dirname + '/logic/hubbubSubscriber.js');
+var hubbubSubscriber = require('./lib/hubbubSubscriber');
 
 var app = express.createServer();
 
@@ -40,13 +40,12 @@ app.get('/hubbub', function(req, res) {
     res.send(req.param('hub.challenge'), 200);
 });
 
-app.post('/hubbub', hubbubSubscriber.postactivity, function(req, res) {
-    console.log(req.body);
+app.post('/hubbub', hubbubSubscriber.postActivityStream, function(req, res) {
+
 });
 
-app.get('/activity', hubbubSubscriber.getactivity, function(req, res) {
-//  console.log(req);
-  res.json({'Warning':'Parameter missing'});
+app.get('/activityStream/:streamName', hubbubSubscriber.getActivityStream, function(req, res) {
+    res.send(JSON.stringify(req.activities));
 });
 
 app.put('.*', function(req, res) {
