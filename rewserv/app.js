@@ -1,11 +1,19 @@
 /**
  * Module dependencies.
  */
-var port = (process.env.VMC_APP_PORT || 3000);
-var host = (process.env.VCAP_APP_HOST || '127.0.0.1');
+
+var reg = require('./lib/register');
 var express = require('express');
-// var communityUser = require(__dirname + '/logic/communityUser.js');
+var communityUser = require('./lib/communityUser');
 var hubbubSubscriber = require('./lib/hubbubSubscriber');
+
+if(reg.cf.cloud) {
+  var port = reg.cf.port;
+  var host = reg.cf.host;
+} else {
+  var port = 3000;
+  var host = '127.0.0.1';
+}
 
 var app = express.createServer();
 
@@ -42,10 +50,6 @@ app.get('/hubbub', function(req, res) {
 
 app.post('/hubbub', hubbubSubscriber.postActivityStream, function(req, res) {
 
-});
-
-app.get('/activityStream/:streamName', hubbubSubscriber.getActivityStream, function(req, res) {
-    res.send(JSON.stringify(req.activities));
 });
 
 app.put('.*', function(req, res) {

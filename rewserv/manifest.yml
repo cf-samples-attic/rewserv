@@ -1,18 +1,16 @@
 --- 
 applications: 
   .: 
-    name: rewards
+    name: rewserv
     url: ${name}.${target-base}
     framework: 
       name: node
       info: 
-        mem: 128M
+        mem: 64M
         description: Node.js Application
         exec: 
-    mem: 128M
+    mem: 64M
     instances: 1
     services: 
       mongo-asms:
         type: :mongodb
-      redis-asms: 
-        type: :redis
