@@ -1,12 +1,6 @@
 var reg = require('./register.js');
 
-var Schema = reg.mongoose.Schema;
-
-var UsersSchema = new Schema({
-    email: {type: String},
-    joindate: {type: String},
-    posts: {type: String}
-});
+var UsersSchema = reg.mongoSchema();
 
 var users = reg.mongoose.model('users', UsersSchema);
  

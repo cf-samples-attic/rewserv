@@ -44,12 +44,17 @@ app.configure('production', function(){
 // Routes
 
 app.get('/hubbub', function(req, res) {
-    console.log(req.param('hub.challenge'));
+    reg.log(req.param('hub.challenge'));
     res.send(req.param('hub.challenge'), 200);
 });
 
 app.post('/hubbub', hubbubSubscriber.postActivityStream, function(req, res) {
 
+});
+
+app.post('/testpost', function(req, res) {
+    reg.log(req.param);
+    res.send(req.param);
 });
 
 app.put('.*', function(req, res) {
