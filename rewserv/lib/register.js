@@ -12,12 +12,12 @@ var register = {
   , mongoConnected: function() {
       return register.mongoose.connect(register.mongoUrl());
     }
-  , mongoSchema: function() {
+  , usersMongoSchema: function() {
       var Schema = register.mongoose.Schema;
       var UsersSchema = new Schema({
           email: {type: String}
         , joindate: {type: String}
-        , posts: {type: String}
+        , values: [ {source: 'springsource-forum', count: 0} ]
       });
       return UsersSchema;
     }

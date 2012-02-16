@@ -1,5 +1,4 @@
 var reg = require('./register');
-var route = require('./hubbubRoute');
 
 exports.postHubbub = function(req,res,next) {
   
@@ -10,7 +9,12 @@ exports.postHubbub = function(req,res,next) {
     next();
   }
 
-  var resultSave = route.parseBody(req.body);
+  // GITHUB COMMIT
+  if(req.body.id.match(/\/\/github.com/)) {
+    var source = require('./sourceGithub');
+  }
+
+  var resultSave = source.save(req.body);
   reg.log(resultSave);
 
 };
