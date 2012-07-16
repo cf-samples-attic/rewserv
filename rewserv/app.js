@@ -12,7 +12,8 @@ if(reg.cf.cloud) {
   var host = reg.cf.host;
 } else {
   var port = 3000;
-  var host = '127.0.0.1';
+  //var host = '127.0.0.1';
+  var host = '192.168.1.20';
 }
 
 var app = express.createServer();
@@ -52,9 +53,16 @@ app.post('/hubbub', hubbubSubscriber.postActivityStream, function(req, res) {
 
 });
 
+app.post('/ti',  communityUser.postactivity, function(req, res) {
+    reg.log(req.body);
+    //res.send();
+});
+
 app.post('/testpost', function(req, res) {
-    reg.log(req.param);
-    res.send(req.param);
+    //reg.log(req.body);
+    //reg.log(req.param);
+    //res.send(req.param);
+    res.send(req.body);
 });
 
 app.put('.*', function(req, res) {

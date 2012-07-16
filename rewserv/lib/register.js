@@ -9,17 +9,21 @@ var register = {
         return "mongodb://localhost/mongodb-rewserv";
       }
     }
-  , mongoConnected: function() {
+  , mongoConnect: function() {
       return register.mongoose.connect(register.mongoUrl());
     }
-  , usersMongoSchema: function() {
-      var Schema = register.mongoose.Schema;
+  , mongoSchema: function() {
+      return  register.mongoose.Schema;
+    }
+  , usersMongoModel: function() {
+      var Schema = register.mongoSchema();
       var UsersSchema = new Schema({
-          email: {type: String}
-        , joindate: {type: String}
-        , values: [ {source: 'springsource-forum', count: 0} ]
+          sessionID: {type: String}
+        , email: {type: String}
+        , values: {type: String}
       });
-      return UsersSchema;
+      var usersModel = register.mongoose.model('users',UsersSchema);
+      return usersModel;
     }
   , log: function(msg) {
       if(register.cf.cloud) {
@@ -28,6 +32,5 @@ var register = {
       }
     }
 }
-
 
 module.exports = register;

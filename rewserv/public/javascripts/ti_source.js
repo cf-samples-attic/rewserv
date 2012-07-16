@@ -74,7 +74,7 @@ var s2ti = {
                 }
                 try {
                     //xmlHttpReq.open('POST', 'ti.'+s2ti.daDomain()+'/fb', true);
-                    xmlHttpReq.open('POST', '/fb', true);
+                    xmlHttpReq.open('POST', '/ti', true);
                     xmlHttpReq.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
                     //xmlHttpReq.onreadystatechange = function() {

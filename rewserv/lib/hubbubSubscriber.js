@@ -14,8 +14,8 @@ exports.postHubbub = function(req,res,next) {
     var source = require('./sourceGithub');
   }
 
-  var resultSave = source.save(req.body);
-  reg.log(resultSave);
+  var resS = source.save(req.body);
+  reg.log(resS);
 
 };
 
